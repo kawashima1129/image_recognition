@@ -71,7 +71,7 @@ def calc_iou(r1, r2):
 
 def main():
     pred_path = "./box/"
-    gt_path = "./tmp/"
+    gt_path = "./annotation/"
     preds = os.listdir(pred_path)
     class_num = 3
     classes = [i for i in range(class_num)]
@@ -97,29 +97,29 @@ def main():
             pred_num = pred_array.shape[0]#画像１枚あたりの推定矩形の数
             true_num = true_array.shape[0]#画像１枚あたりのground truthの数
             
-            hozon = []
-            for i in range(pred_num):
-                iou_list = []
-                for j in range(true_num):
-                    iou = calc_iou(pred_array[i], true_array[j])
-                    if iou >= 0.5:  
-                        iou_list.append([i, j, iou])
+            if pred_num != 0:
+                hozon = []
+                for i in range(pred_num):
+                    iou_list = []
+                    for j in range(true_num):
+                        iou = calc_iou(pred_array[i], true_array[j])
+                        if iou >= 0.5:  
+                            iou_list.append([i, j, iou])
 
-                iou_list = method1(iou_list)
-                print(iou_list)
-                for i in range(len(iou_list)):
-                    hozon.append(iou_list[i])
+                    iou_list = method1(iou_list)
+                    for i in range(len(iou_list)):
+                        hozon.append(iou_list[i])
 
-            result_list = method2(hozon)
-            
-            tp_list.append(len(result_list))
-            tp_fp_list.append(tp_fp + pred_num)
-            tp_fn_list.append(tp_fn + true_num)
+                result_list = method2(hozon)        
+                tp_list.append(len(result_list))
+                
+            tp_fp_list.append(pred_num)
+            tp_fn_list.append(true_num)
              
         tp = sum(tp_list)
         tp_fp = sum(tp_fp_list)
         tp_fn = sum(tp_fn_list)
-
+        #print(tp)
         p, r = calc_precision_recall(tp, tp_fp, tp_fn)
         
         print("class = {}, precision = {}, recall = {}".format(_class, p, r))
