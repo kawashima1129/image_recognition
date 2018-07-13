@@ -2,7 +2,7 @@
 ## precision_recall.pyの説明
 * 物体検出における各クラスのprecisonとrecallを算出するプログラム  
   VOCの算出方法に準拠しています。  
-  テスト済み。
+  テスト済み。  
 使い方  
 pred_pathに推定したバウンディングボックスの座標ファイル
 gt_pathにground truthの座標ファイルを保存したディレクトリのパスを記載する  
