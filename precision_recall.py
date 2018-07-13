@@ -79,6 +79,7 @@ def main():
         tp_fp = 0
         tp_fn = 0
         for pred in preds:
+            result = []
             p = pred_path + pred
             t = gt_path + pred
             dfp = pd.read_csv(p, names = ['c', 'xmin', 'ymin', 'xmax', 'ymax'])
@@ -92,7 +93,6 @@ def main():
             
             if pred_num != 0:
                 iou_list = []
-                result = []
                 for i in range(pred_num):
                     for j in range(true_num):
                         iou = calc_iou(pred_array[i], true_array[j])
@@ -104,7 +104,8 @@ def main():
             tp_fp_list.append(pred_num)
             tp_fn_list.append(true_num)
             if len(result) != true_num or pred_num != true_num:
-                print("誤検出もしくは検出漏れをしたファイル名：", pred)
+                #print("誤検出もしくは検出漏れをしたファイル名：", pred)
+                 pass
              
         tp = sum(tp_list)
         tp_fp = sum(tp_fp_list)
